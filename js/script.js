@@ -3,7 +3,6 @@ const canvas = document.createElement("canvas");
 const context = canvas.getContext("2d");
 const socket = io("http://localhost:3000");
 let paddleIndex = 0;
-
 let width = 500;
 let height = 700;
 
@@ -165,6 +164,7 @@ function animate() {
 function startGame() {
   createCanvas();
   renderIntro();
+  socket.emit("ready");
 
   paddleIndex = 0;
   window.requestAnimationFrame(animate);
@@ -184,3 +184,7 @@ function startGame() {
 
 // On Load
 startGame();
+
+socket.on("connect", () => {
+  console.log("Connected as...", socket.id);
+});
